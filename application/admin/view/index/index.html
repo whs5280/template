@@ -1,0 +1,74 @@
+{include file="public/header"/}
+
+<body class="gray-bg">
+<div class="wrapper wrapper-content" >
+    <!-- 上方tab -->
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label label-success pull-right">日</span>
+                    <h5>用户</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <small>今日新增</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <span class="label pull-right">日</span>
+                    <h5>注册</h5>
+                </div>
+                <div class="ibox-content">
+                    <h1 class="no-margins">0</h1>
+                    <small>新增</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 中间折线 -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="col-sm-6">
+                <div class="panel panel-info">
+                    <div class="panel-heading">
+                        <i class="fa fa-cogs"></i> 系统信息
+                    </div>
+                    <div class="panel-body">
+                        <p><i class="fa fa-sitemap"></i> 框架版本：ThinkPHP{$info.think_v}
+                        </p>
+                        <p><i class="fa fa-windows"></i> 服务环境：{$info.web_server}
+                        </p>
+                        <p><i class="fa fa-warning"></i> 上传附件限制：{$info.onload}
+                        </p>
+                        <p><i class="fa fa-credit-card"></i> PHP 版本：{$info.phpversion}
+                        </p>
+                    </div>
+                </div>
+            </div>
+           <!-- <div class="col-sm-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <i class="fa fa-cogs"></i> 系统信息
+                    </div>
+                    <div class="panel-body">
+                        <p><i class="fa fa-send-o"></i> 博客：<a href="http://baidu.com" target="_blank">http://baidu.com</a>
+                        </p>
+                        <p><i class="fa fa-qq"></i> QQ：<a href="http://wpa.qq.com/msgrd?v=3&amp;uin=505413&amp;site=qq&amp;menu=yes" target="_blank">357823601</a>
+                        </p>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </div>
+
+</div>
+
+{include file="public/footer" /}
+<script src="/static/admin/js/jquery.leoweather.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>企业介绍</h5>
+        </div>
+        <div class="ibox-content">
+
+            <!--搜索框结束-->
+            <div class="hr-line-dashed"></div>
+            <div class="table-responsive example-wrap">
+                <div class="example">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="long-tr">
+                                <th>ID</th>
+                                <th>内容</th>
+                                <th>创建时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+
+                            <tr class="long-td">
+                                <td style="vertical-align:top">{$data.id}</td>
+                                <td style="vertical-align:top">{$data.content}</td>
+                                <td style="vertical-align:top" >{$data.create_time}</td>
+                                <td style="vertical-align:top" >
+                                    <a href="javascript:;" onclick="editContent()" class="btn btn-primary btn-outline btn-xs">
+                                        <i class="fa fa-paste"></i> 编辑
+                                    </a>&nbsp;&nbsp;
+
+                                </td>
+                            </tr>
+                        <tbody id="list-content"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+
+
+</div>
+
+{include file="public/footer" /}
+
+<script type="text/javascript">
+
+
+//编辑商品
+function editContent(id){
+    location.href = './editContentBusiness/id/'+id+'.html';
+
+}
+
+</script>
+</body>
+</html>

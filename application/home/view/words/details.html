@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>{$detail.title}</title>
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  {include file="public/header" /}
+</head>
+
+<body id="blog-article-sidebar">
+{include file="public/nav" /}
+<!-- content srart -->
+<div class="am-g am-g-fixed blog-fixed blog-content">
+    <div class="am-u-md-8 am-u-sm-12">
+        <article class="am-article blog-article-p">
+            <div class="am-article-hd">
+                <h1 class="am-article-title blog-text-center">{$detail.title}</h1>
+                <p class="am-article-meta blog-text-center">
+                    <span><a href="#" class="blog-color">article &nbsp;</a></span>-
+                    <span><a href="#">{$detail['author']}</a></span>-
+                    <span><a href="#">{$detail['create_time']|date='Y-m-d H:i:s',###}</a></span>
+                </p>
+            </div>        
+            <div class="am-article-bd">
+                {if condition="!empty($detail['video'])"}
+                <video width="320" height="240" controls="controls">
+                    <source src="{$detail.video}" />
+                    <source src="movie.ogg" type="video/ogg" />
+                    <source src="movie.webm" type="video/webm" />
+                    <object data="{$detail.video}" width="320" height="240">
+                        <embed src="movie.swf" width="320" height="240" />
+                    </object>
+                </video>
+                {/if}
+                {if condition="!empty($detail['img'])"}
+                {foreach $detail.img as $v}
+                <div class="am-u-lg-12 am-u-md-12 am-u-sm-12 blog-entry-img" style="margin-bottom: 20px">
+                    <img src="{$v}" class="am-u-sm-12" style="width: 90%">
+                </div>
+                {/foreach}
+                {/if}
+            </div>
+        </article>
+
+
+        <hr>
+            <ul class="am-pagination blog-article-margin">
+              <p>上一篇：
+                {if condition="$down['id'] eq 0"}
+                    <a title='没有了'>&nbsp;没有了</a>
+                {else /}
+                    <a title='{$down.title}' href="{:url('detail/index',['id'=>$down['id']])}" class="down_text">{$down.title}</a>
+                {/if}
+
+              </p>
+              <p>下一篇：
+                {if condition="$up['id'] eq 0"}
+                    <a title='没有了'>&nbsp;没有了</a>
+                {else /}
+                    <a title='{$up.title}' href="{:url('detail/index',['id'=>$up['id']])}" class="down_text">{$up.title}</a>
+                {/if}
+              </p>
+            </ul>      
+        <hr>
+
+        <form class="am-form am-g">
+            <h3 class="blog-comment">评论</h3>
+            <fieldset>
+                <div class="am-form-group am-u-sm-4 blog-clear-left">
+                    <input type="text" class="" placeholder="用户名">
+                </div>
+                <div class="am-form-group am-u-sm-4 blog-clear-right">
+                    <input type="password" class="" placeholder="密码">
+                </div>
+                <div class="am-form-group">
+                    <textarea class="" rows="5" placeholder="想要说什么呢？"></textarea>
+                </div>
+                <p><button type="submit" class="am-btn am-btn-primary">发表评论</button></p>
+            </fieldset>
+        </form>
+        <hr>
+    </div>
+<!-- 右侧 -->
+{include file="public/right" /}  
+</div>
+<!-- 底部 -->
+<!--{include file="public/footer" /}-->

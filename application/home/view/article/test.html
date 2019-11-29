@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>欧派橱柜案例分享</title>
+    <link rel="stylesheet" type="text/css" href="__CSS__/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="__CSS__/default.css">
+    <!-- Magnific popup styles -->
+    <link rel="stylesheet" href="__CSS__/magnific-popup.css">
+    <!-- Global CSS for the page and tiles -->
+    <link rel="stylesheet" href="__CSS__/main.css">
+</head>
+<body>
+<div class="htmleaf-container">
+    <header class="htmleaf-header">
+        <h1>欧派橱柜案例分享</h1>
+    </header>
+    <div class="htmleaf-demo center">
+        <a href="?cate_id=0" {if condition="$cate_id == 0"}class="current"{/if}>全部</a>
+        {foreach $cateList as $k => $v}
+        <a href="?cate_id={$k}" {if condition="$cate_id == $k"}class="current"{/if}>{$v}</a>
+        {/foreach}
+    </div>
+    <div role="main">
+        <ul id="container" class="tiles-wrap animated">
+            <!-- These are our grid blocks -->
+            {foreach $lists as $v}
+            <li class="article" article_id="{$v['id']}">
+                <img src="{$v['photo']}"  width="190">
+                <p>{$v['title']}</p>
+            </li>
+            {/foreach}
+            <!-- End of grid blocks -->
+        </ul>
+    </div>
+</div>
+<div id="Pages" style="text-align:center;"></div>
+
+<!-- include jQuery -->
+<script src="__JS__/jquery-1.11.0.min.js"></script>
+<script src="__JS__/jquery.imagesloaded.js"></script>
+<!-- include magnific popup -->
+<script src="__JS__/jquery.magnific-popup.min.js"></script>
+<script src="/static/admin/js/laypage/laypage.js"></script>
+<!-- Include the plug-in -->
+<script src="__JS__/wookmark.js"></script>
+
+<!-- Once the page is loaded, initalize the plug-in. -->
+<script type="text/javascript">
+    $(function(){
+        $('#container').imagesLoaded(function(){
+            //图片资源获取完毕之后，在调用瀑布流。（避免图片重叠）
+            var wookmark = new Wookmark('#container', {
+                // Prepare layout options.
+                autoResize: true, // This will auto-update the layout when the browser window is resized.
+                container: $('#main'), // Optional, used for some extra CSS styling
+                offset: 10, // Optional, the distance between grid items
+                itemWidth: 200, // Optional, the width of a grid item
+                width:400
+            });
+            //分页
+            laypage({
+                cont: $('#Pages'),  // 分页容器
+                pages: "{$allpage}",// 总页数
+                skip: false, //是否开启跳页
+                skin: '#1AB5B7',//分页组件颜色
+                groups: 3,//连续显示分页数
+                curr: function(){
+                    var page = "{$nowpage}"; // 当前页(后台获取到的)
+                    return page ? page : 1; // 返回当前页码值
+                }(),
+                jump: function(e, first){ //触发分页后的回调(单击页码后)
+                    if(!first){ //一定要加此判断，否则初始时会无限刷新
+                        //var urls = "{:url('index/index')}";
+                        location.href = '?page='+e.curr;
+                    }
+                }
+            });
+        });
+
+        $('.article').click(function(){
+            var id = $(this).attr('article_id');
+            showWin(id);
+        });
+
+    });
+    function showWin(id) {
+        $.ajax({
+            type: "GET",
+            url: '{:url("getArticlePhotos")}',
+            data: {id:id},
+            dataType: "json",
+            success: function(data){
+                if(data.code == 1){
+                    $.magnificPopup.open({
+                        items: data.data,
+                        type: 'image',
+                        gallery: {
+                            enabled: true,
+
+                        },
+                        closeBtnInside: false,
+                        image: {
+                            // options for image content type
+                            titleSrc: 'title'
+                        },
+                    });
+                }else{
+                    alert(data.msg);
+                }
+
+            }
+        });
+
+    }
+</script>
+</body>
+</html>

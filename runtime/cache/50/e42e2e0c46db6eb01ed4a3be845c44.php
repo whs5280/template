@@ -1,0 +1,4 @@
+<?php
+//000000000000
+ exit();?>
+a:17:{s:14:"web_site_title";s:21:"www.tinyauinvest .com";s:20:"web_site_description";s:18:"项目管理系统";s:16:"web_site_keyword";s:18:"项目管理系统";s:12:"web_site_icp";s:22:"粤ICP备15002349号-1";s:13:"web_site_cnzz";s:0:"";s:13:"web_site_copy";s:57:"Copyright © 2019 项目管理系统 All rights reserved.";s:14:"web_site_close";s:1:"1";s:9:"list_rows";s:1:"5";s:14:"admin_allow_ip";N;s:13:"alisms_appkey";s:0:"";s:16:"alisms_appsecret";s:0:"";s:15:"alisms_signname";s:12:"注册验证";s:14:"words_is_audit";s:1:"0";s:16:"comment_is_audit";s:1:"0";s:15:"device_is_audit";s:1:"0";s:13:"wechat_appkey";s:3:"123";s:16:"wechat_appsecret";s:3:"123";}

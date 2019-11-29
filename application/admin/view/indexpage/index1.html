@@ -1,0 +1,320 @@
+{include file="public/header"/}
+<style>
+    .user_img{
+        height: 32px;
+        display: flex;
+        flex-direction:column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+</style>
+<body class="gray-bg">
+
+<div class="wrapper wrapper-content animated fadeInUp">
+    <div class="row">
+        <div class="col-sm-12">
+            <!--待开发项目-->
+            <div class="col-sm-4">
+                <div class="ibox-title">
+                    <h5>待开发项目</h5>
+                    <div class="ibox-tools">
+                        <span class="btn btn-primary btn-xs">({$notStartProject|count})</span>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+
+                    <div class="project-list">
+
+                        <table class="table table-hover">
+                            <tbody>
+                            {notempty name="notStartProject"}
+                            {foreach name="notStartProject" key="key" item="vo"}
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">{$vo.status}</span></td>
+                                <td class="project-title">
+                                    <a href="project_detail.html">{$vo.pname}</a>
+                                    <br/>
+                                    <small>启动时间 : {$vo.starttime|date="Y-m-d",###}</small>
+                                    <br>
+                                    <small>限定时间 : {$vo.limitedtime|date="Y-m-d",###}</small>
+                                </td>
+                                <td class="project-completion">
+                                    <small>业务员： {$vo.real_name}</small>
+<!--                                    <div class="progress progress-mini">-->
+<!--                                        <div style="width: 48%;" class="progress-bar"></div>-->
+<!--                                    </div>-->
+                                </td>
+                                <td class="project-people">
+                                    {notempty name="vo.users"}
+                                    {foreach name="vo.users" key="key" item="v1"}
+                                    <div class="user_img" style="display:inline-block">
+                                        <img alt="image" class="img-circle" src="/uploads/face/{$v1.portrait}" onerror='this.src="/static/admin/images/head_default.gif"'>
+                                        <p><small>{$v1.real_name}</small></p>
+                                    </div>
+                                    {/foreach}
+                                    {/notempty}
+                                </td>
+<!--                                <td class="project-actions">-->
+<!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>-->
+<!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>-->
+<!--                                </td>-->
+                            </tr>
+                            {/foreach}
+                            {/notempty}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--开发中项目-->
+            <div class="col-sm-4">
+                <div class="ibox-title">
+                    <h5>开发中项目</h5>
+                    <div class="ibox-tools">
+                        <span class="btn btn-primary btn-xs">({$startingProject|count})</span>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+
+                    <div class="project-list">
+
+                        <table class="table table-hover">
+                            <tbody>
+                            {notempty name="$startingProject"}
+                            {foreach name="$startingProject" key="key" item="vo"}
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">{$vo.status}</span></td>
+                                <td class="project-title">
+                                    <a href="project_detail.html">{$vo.pname}</a>
+                                    <br/>
+                                    <small>启动时间 : {$vo.starttime|date="Y-m-d",###}</small>
+                                    <br>
+                                    <small>限定时间 : {$vo.limitedtime|date="Y-m-d",###}</small>
+                                </td>
+                                <td class="project-completion">
+                                    <small>业务员： {$vo.real_name}</small>
+                                    <!--                                    <div class="progress progress-mini">-->
+                                    <!--                                        <div style="width: 48%;" class="progress-bar"></div>-->
+                                    <!--                                    </div>-->
+                                </td>
+                                <td class="project-people">
+                                    {notempty name="vo.users"}
+                                    {foreach name="vo.users" key="key" item="v1"}
+                                    <div class="user_img" style="display:inline-block">
+                                        <img alt="image" class="img-circle" src="/uploads/face/{$v1.portrait}" onerror='this.src="/static/admin/images/head_default.gif"'>
+                                        <p><small>{$v1.real_name}</small></p>
+                                    </div>
+                                    {/foreach}
+                                    {/notempty}
+                                </td>
+                                <!--                                <td class="project-actions">-->
+                                <!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>-->
+                                <!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>-->
+                                <!--                                </td>-->
+                            </tr>
+                            {/foreach}
+                            {/notempty}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!--完成开发项目-->
+            <div class="col-sm-4">
+                <div class="ibox-title">
+                    <h5>完成开发项目</h5>
+                    <div class="ibox-tools">
+                        <span class="btn btn-primary btn-xs">({$finishProject|count})</span>
+                    </div>
+                </div>
+                <div class="ibox-content">
+
+
+                    <div class="project-list">
+
+                        <table class="table table-hover">
+                            <tbody>
+                            {notempty name="finishProject"}
+                            {foreach name="finishProject" key="key" item="vo"}
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">{$vo.status}</span></td>
+                                <td class="project-title">
+                                    <a href="project_detail.html">{$vo.pname}</a>
+                                    <br/>
+                                    <small>启动时间 : {$vo.starttime|date="Y-m-d",###}</small>
+                                    <br>
+                                    <small>限定时间 : {$vo.limitedtime|date="Y-m-d",###}</small>
+                                    <br>
+                                    <small>完成开发时间 : {$vo.finishtime|date="Y-m-d",###}</small>
+                                </td>
+                                <td class="project-completion">
+                                    <small>业务员： {$vo.real_name}</small>
+                                    <!--                                    <div class="progress progress-mini">-->
+                                    <!--                                        <div style="width: 48%;" class="progress-bar"></div>-->
+                                    <!--                                    </div>-->
+                                </td>
+                                <td class="project-people">
+                                    {notempty name="vo.users"}
+                                    {foreach name="vo.users" key="key" item="v1"}
+                                    <div class="user_img" style="display:inline-block">
+                                        <img alt="image" class="img-circle" src="/uploads/face/{$v1.portrait}" onerror='this.src="/static/admin/images/head_default.gif"'>
+                                        <p><small>{$v1.real_name}</small></p>
+                                    </div>
+                                    {/foreach}
+                                    {/notempty}
+                                </td>
+                                <!--                                <td class="project-actions">-->
+                                <!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>-->
+                                <!--                                    <a href="projects.html#" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 编辑 </a>-->
+                                <!--                                </td>-->
+                            </tr>
+                            {/foreach}
+                            {/notempty}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--&lt;!&ndash; 全局js &ndash;&gt;-->
+<!--<script src="js/jquery.min.js?v=2.1.4"></script>-->
+<!--<script src="js/bootstrap.min.js?v=3.3.6"></script>-->
+
+
+<!--&lt;!&ndash; 自定义js &ndash;&gt;-->
+<!--<script src="js/content.js?v=1.0.0"></script>-->
+
+
+<script>
+    $(document).ready(function(){
+
+        $('#loading-example-btn').click(function () {
+            btn = $(this);
+            simpleLoad(btn, true)
+
+            // Ajax example
+//                $.ajax().always(function () {
+//                    simpleLoad($(this), false)
+//                });
+
+            simpleLoad(btn, false)
+        });
+    });
+
+    function simpleLoad(btn, state) {
+        if (state) {
+            btn.children().addClass('fa-spin');
+            btn.contents().last().replaceWith(" Loading");
+        } else {
+            setTimeout(function () {
+                btn.children().removeClass('fa-spin');
+                btn.contents().last().replaceWith(" Refresh");
+            }, 2000);
+        }
+    }
+</script>
+
+{include file="public/footer" /}
+<script src="/static/admin/js/jquery.leoweather.min.js"></script>
+<script type="text/javascript" src="/static/admin/js/highcharts/highcharts.src.js"></script>
+<script type="text/javascript" src="/static/admin/js/highcharts/highcharts-3d.js"></script>
+<script type="text/javascript" src="/static/admin/js/highcharts/exporting.js"></script>
+<script language="JavaScript">
+    $(function () {
+        $.ajax({
+            url:"{:url('indexPage')}",
+            dataType:"json",
+            success:function (res) {
+                console.log(res);
+                //用户相关的
+                $("#todayNewUserCount").text(res.todayNewUserCount);
+                $("#UserCount").text(res.UserCount);
+                $("#todayActiveCount").text(res.todayActiveCount);
+                $("#noActiveCount").text(res.noActiveCount);
+                //新闻相关的
+                $("#todayNewsCount").text(res.todayNewsCount);
+                $("#newsCount").text(res.newsCount);
+                $("#todayNewsCommentCount").text(res.todayNewsCommentCount);
+                $("#newsCommentCount").text(res.newsCommentCount);
+                //帖子相关的
+                $("#todayPostCount").text(res.todayPostCount);
+                $("#postCount").text(res.postCount);
+                $("#todayPostCommentCount").text(res.todayPostCommentCount);
+                $("#postCommentCount").text(res.postCommentCount);
+                //日志相关的
+                $("#failLogCount").text(res.failLogCount);
+                $("#logCount").text(res.logCount);
+                $("#addLogCount").text(res.logCount);
+                $("#logsCount").text(res.logsCount);
+                //3D柱状图
+                var brand_list = res.brand_list;
+                var data_list = res.data_list;
+                var chart = Highcharts.chart('container',{
+                    chart: {
+                        type: 'column',
+                        margin: 75,
+                        options3d: {
+                            enabled: true,
+                            alpha: 10,
+                            beta: 25,
+                            depth: 70,
+                            viewDistance: 100,      // 视图距离，它对于计算角度影响在柱图和散列图非常重要。此值不能用于3D的饼图
+                            frame: {                // Frame框架，3D图包含柱的面板，我们以X ,Y，Z的坐标系来理解，X轴与 Z轴所形成
+                                // 的面为bottom，Y轴与Z轴所形成的面为side，X轴与Y轴所形成的面为back，bottom、
+                                // side、back的属性一样，其中size为感官理解的厚度，color为面板颜色
+                                bottom: {
+                                    size: 10
+                                },
+                                side: {
+                                    size: 1,
+                                    color: 'transparent'
+                                },
+                                back: {
+                                    size: 1,
+                                    color: 'transparent'
+                                }
+                            }
+                        },
+                    },
+                    title: {
+                        text: '各品牌论坛具体数量柱状图'
+                    },
+                    subtitle: {
+                        text: null
+                    },
+                    plotOptions: {
+                        column: {
+                            depth: 25
+                        }
+                    },
+                    xAxis: {
+                        categories: brand_list
+                    },
+                    yAxis: {
+                        title: {
+                            text: '数量'
+                        }
+                    },
+                    series: data_list
+                });
+
+            }
+        })
+    })
+    // function refresh()
+    // {
+    //     window.location.reload();
+    // }
+    // setTimeout('refresh()',5000); //指定5秒刷新一次
+
+</script>
+</body>

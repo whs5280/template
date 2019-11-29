@@ -1,0 +1,202 @@
+{include file="public/header" /}
+<!--datatables-->
+<!--<link href="/static/admin/media/css/jquery.dataTables.css" rel="stylesheet">-->
+<!--<link href="/static/admin/media/css/colReorder.dataTables.css" rel="stylesheet">-->
+<!--<link href="/static/admin/media/css/fixedColumns.dataTables.css" rel="stylesheet">-->
+<!--<link href="/static/admin/media/css/buttons.dataTables.css" rel="stylesheet">-->
+<link rel='stylesheet prefetch' href='/static/admin/device/css/material.blue-orange.min.css'>
+<link type="text/css" rel="stylesheet" href="/static/admin/device/css/style.css">
+<style type="text/css">
+/* TAB */
+.nav-tabs.nav>li>a {
+    padding: 10px 25px;
+    margin-right: 0;
+}
+.nav-tabs.nav>li>a:hover,
+.nav-tabs.nav>li.active>a {
+    border-top: 3px solid #1ab394;
+    padding-top: 8px;
+    border-bottom: 1px solid #FFFFFF;
+}
+.nav-tabs>li>a {
+    color: #A7B1C2;
+    font-weight: 500;  
+    margin-right: 2px;
+    line-height: 1.42857143;
+    border: 1px solid transparent;
+    border-radius: 0;
+}
+
+#stable1 th, td {
+    /*width: 250px!important;*/
+    text-align: center;
+}
+#stable2 th, td {
+    /*width: 250px!important;*/
+    text-align: center;
+}
+table.dataTable thead .sorting:after,table.dataTable thead .sorting_desc:after{
+    /*去掉style.min.css原有的排序图标*/
+    content:"";
+}
+#stable1 tr:nth-child(odd){
+
+    background: #ddd;
+
+}
+.upBtn{
+    float: left;
+    margin-top: -45px;
+    margin-left: 5px;
+}
+.bg_btn{
+    background-color: white;
+    /*position: fixed;*/
+    /*z-index: 100;*/
+}
+.close_btn{
+    background-color: red;
+}
+::-webkit-scrollbar{
+    /*表格水平滚动条的宽度*/
+    height:15px;
+}
+</style>
+
+<body class="gray-bg">
+<div class="mdl-card__actions refresh_btn bg_btn" onclick="closePageForm()"><a class="mdl-button mdl-button--raised mdl-js-button mdl-button--primary mdl-js-ripple-effect close_btn">关闭页面</a></div>
+<div class="upBtn" onclick="getLog('{$device}')"><a class="mdl-button mdl-button--raised mdl-js-button mdl-button--primary mdl-js-ripple-effect">请求数据</a></div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <ul id='ws' style="font-family: 'Courier New', Courier, monospace;"></ul>
+    </div>
+    <ul id = 'show' style="font-family: 'Courier New', Courier, monospace;">
+        {if !empty($info)}
+        {foreach name="info" item="vo"}
+            <li>{$vo.time}{$vo.description}</li>
+        {/foreach}
+        {/if}
+    </ul>
+</div>
+<script type="text/javascript" src='/static/admin/device/js/material.min.js'></script>
+<script type="text/javascript" src='/static/admin/device/js/svg.min.js'></script>
+<script type="text/javascript" src='/static/admin/device/js/tinycolor.min.js'></script>
+<script type="text/javascript" src="/static/admin/device/js/index.js"></script>
+<script src="/static/admin/device/js/mqttws31.js" type="text/javascript"></script>
+<script src="/static/admin/device/js/jquery.min.js" type="text/javascript"></script>
+<script src="/static/admin/device/js/config.js" type="text/javascript"></script>
+<script src="/static/admin/layer/layer.js"></script>
+<script>
+
+    var mqtt;
+    var reconnectTimeout = 2000;
+
+    function MQTTconnect() {
+        mqtt = new Paho.MQTT.Client(
+            "m.uad360.com",
+            9999,
+            "web_" + parseInt(Math.random() * 100,
+                10));
+        var options = {
+            timeout: 3,
+            useSSL: useTLS,
+            cleanSession: cleansession,
+            onSuccess: onConnect,
+            onFailure: function (message) {
+                $('#status').val("Connection failed: " + message.errorMessage + "Retrying");
+                console.log("Connection failed: " + message.errorMessage + "Retrying");
+                setTimeout(MQTTconnect, reconnectTimeout);
+            }
+        };
+
+        mqtt.onConnectionLost = onConnectionLost;
+        mqtt.onMessageArrived = onMessageArrived;
+
+        if (username != null) {
+            options.userName = username;
+            options.password = password;
+        }
+        console.log("Host="+ host + ", port=" + port + " TLS = " + useTLS + " username=" + username + " password=" + password);
+        mqtt.connect(options);
+    }
+
+    function onConnect() {
+//        $('#status').val('Connected to ' + host + ':' + port);
+        // Connection succeeded; subscribe to our topic
+        mqtt.subscribe(topic, {qos: 0});
+//        $('#topic').val(topic);
+    }
+
+    function onConnectionLost(response) {
+//        alert(response.errorMessage);
+//        $('#ws').prepend('<li>' + '请求失败!正在重新请求...' + '</li>');
+        console.log("connection lost: " + response.errorMessage + ". Reconnecting");
+        setTimeout(MQTTconnect, reconnectTimeout);
+//        $('#status').val("connection lost: " + responseObject.errorMessage + ". Reconnecting");
+
+    };
+
+    function onMessageArrived(message) {
+//        $('#ws').html('');
+//        $('#ws').prepend('<li>' + '正在请求数据，请稍等...如果5秒内没有数据，请点击“请求数据”按钮手动请求数据' + '</li>');
+        var topic = message.destinationName;
+        var payload = message.payloadString;
+        if(topic == 'uad/Ad_Box/back/{$device}/SendLog'){
+            $('#ws').html('');
+            var count = JSON.parse(payload);
+            for(var i = 0;i <= count.length;i++){
+                $msg=count[i]['_message'];
+                $logDate=count[i]['LogDate']
+                $logDate = $logDate.replace('/Date(', "");
+                $logDate = $logDate.replace(')/', "");
+
+                $('#ws').prepend('<li>' + $logDate + '==>' + $msg + '</li>');
+            }
+        }
+    };
+
+    function formatDateTime(time) {
+        var newDate = new Date();
+        newDate.setTime(time * 1000);
+        return newDate.toLocaleString();
+    }
+
+
+    function getLog(name){
+        //����д��Ҫִ�е����
+        var tp = 'uad/Ad_Box/'+ name+'/SendLog';
+        var val = 'OK';
+        if(tp==''||val=='')
+        {
+            alert("no topic");
+            return;
+        }
+        var message = new Paho.MQTT.Message(val);
+        message.destinationName = tp;
+        message.qos=0;
+        mqtt.send(message);
+        $('#ws').prepend('<li>' + tp + '</li>');
+    };
+
+//    $(document).ready(function(){
+//        setTimeout(getLog('{$device}'),1000);
+//    });
+
+    $(window).load(function () {
+        setTimeout(getLog('{$device}'),1000);
+    });
+
+    function closePageForm(){
+        var index = parent.layer.getFrameIndex(window.name);
+        parent.layer.close(index);
+    }
+
+    $(document).ready(function() {
+        MQTTconnect();
+    });
+
+
+</script>
+</body>
+{include file="public/footer" /}
+</html>

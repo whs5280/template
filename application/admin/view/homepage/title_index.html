@@ -1,0 +1,59 @@
+{include file="public/header" /}
+<body class="gray-bg">
+<div class="wrapper wrapper-content animated fadeInRight">
+    <!-- Panel Other -->
+    <div class="ibox float-e-margins">
+        <div class="ibox-title">
+            <h5>首页商品列表</h5>
+        </div>
+        <div class="ibox-content">
+            <div class="hr-line-dashed"></div>
+            <div class="table-responsive example-wrap">
+                <div class="example">
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr class="long-tr">
+                                <th>ID</th>
+                                <th>主标题</th>
+                                <th>副标题</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                            <tr class="long-td">
+                                <td>{$data.id}</td>
+                                <td>{$data.main_title}</td>
+                                <td>{$data.vice_title}</td>
+                                <td>{$data.create_time}</td>
+                                <td>
+                                    <a href="javascript:;" onclick="titleEdit({$data.id})" class="btn btn-primary btn-outline btn-xs">
+                                        <i class="fa fa-paste"></i> 编辑
+                                    </a>
+                                </td>
+                            </tr>
+                        <tbody id="list-content"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- End Example Pagination -->
+        </div>
+    </div>
+</div>
+<!-- End Panel Other -->
+</div>
+
+{include file="public/footer" /}
+
+<script type="text/javascript">
+   
+
+    //编辑商品
+    function titleEdit(id){
+        console.log('hi');
+        location.href = './titleEdit/id/'+id+'.html';
+    }
+
+
+</script>
+</body>
+</html>

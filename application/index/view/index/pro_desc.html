@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>产品详情</title>
+	<link type="text/css" rel="stylesheet" href="/static/admin/layui/css/layui.css" />
+	<script type="text/javascript" src="/static/index/js/jquery.js"></script>
+	<script type="text/javascript" src="/static/admin/layui/layui.js"></script>
+
+	<!--字体库连接，可以根据自己需要改动-->
+	<!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css'>-->
+	<!--<link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/svgs/fi-list.svg'>-->
+	<link rel="stylesheet" href="/static/index/tdnav/css/style.css">
+	<link rel="stylesheet" href="/static/index/piclunbo/css/swiper.min.css">
+	<script src="/static/index/piclunbo/js/swiper.min.js"></script>
+
+</head>
+
+<style type="text/css">
+	.swiper-container {
+		width: 100%;
+		height: 50%;
+	}
+	.swiper-slide {
+		text-align: center;
+		font-size: 18px;
+		background: #fff;
+
+		/* Center slide text vertically */
+		display: -webkit-box;
+		display: -ms-flexbox;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-box-pack: center;
+		-ms-flex-pack: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		-webkit-box-align: center;
+		-ms-flex-align: center;
+		-webkit-align-items: center;
+		align-items: center;
+	}
+</style>
+<body style="background:#ffffff;color: #000000;">
+<div class="layui-tab layui-tab-brief">
+	<ul class="layui-tab-title" style="text-align: center; font-size: 20px;">
+		<li class="layui-this">图文</li>
+		<li>视频</li>
+		<li onclick="window.location.reload()">刷新</li>
+		<li onclick="history.go(-1);">返回列表页</li>
+	</ul>
+	<div class="layui-tab-content">
+		<div class="layui-tab-item layui-show" style="background: #ffffff;">
+			<div class="layui-row" style="overflow:hidden; position:relative; top: 0;left: 0;">
+				<!--<div class="center menu">
+                    <div id="myMenu"></div>
+                </div>-->
+				<!--当前产品主图-->
+				<div class="swiper-container">
+					<div class="swiper-wrapper">
+						{if !empty($proData)}
+						{foreach name="imgsPath" item="vos"}
+						<div class="swiper-slide">
+							<img src="{$vos}" style="width: 100%;height:20%">
+						</div>
+						{/foreach}
+						{/if}
+					</div>
+				</div>
+
+				<!--{if !empty($proData)}
+				<div class="layui-row">
+					<div class="layui-col-md12" style="text-align: center;">
+						<img src="/{$proData.pro_img}" onclick="getPro({$proData.id})" onerror="this.src='/static/admin/images/no_img.jpg'" width="99.5%" style="max-height: 1000px;">
+					</div>
+				</div>
+				{/if}-->
+
+				<hr style="margin-bottom: 35px; margin-top: 25px;">
+				<!--明细列表-->
+				{if !empty($data)}
+				{foreach name="data" item="vo"}
+				<div class="layui-row layui-col-space100" style="background: #ffffff">
+					<div class="layui-col-md4 layui-col-md-offset1">
+						<div class="pro-img">
+							<img src="/{$vo.img}" onclick="getProTeta({$vo.id})" onerror="this.src='/static/admin/images/no_img.jpg'" width="500" height="370px;">
+						</div>
+					</div>
+					<div class="layui-col-md4" style="margin-left: 18%; margin-top: 20px;">
+						<div class="pro-data">
+							<ul>
+								<li>
+									<p style="font-size: 30px; color: #999;">{$vo.pro_name}</p>
+								</li>
+								<li>
+									<p style="font-size: 20px; color: #999; margin-top: 10px;"><span>价格：</span>&nbsp;<span style="color: #c41713;font-weight: bold;">￥{$vo.teta_price}</span></p>
+								</li>
+								<li>
+									<p style="font-size: 20px; color: #999; margin-top: 5px;"><span>分类：</span>&nbsp;<span>{$vo.group_name.group_name}</span></p>
+								</li>
+								<li>
+									<p style="font-size: 20px; color: #999; margin-top: 5px;"><span>材质：</span>&nbsp;<span>{$vo.material}</span></p>
+								</li>
+								<li>
+									<p style="font-size: 20px; color: #999; margin-top: 5px;"><span>规格：</span>&nbsp;<span>{$vo.spec}</span></p>
+								</li>
+								<li>
+									<p style="font-size: 20px; color: #999; margin-top: 5px;"><span>描述：</span>&nbsp;<span>{$vo.remark}</span></p>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+
+				<hr style="margin-bottom: 25px; margin-top: 25px;">
+				{/foreach}
+				{/if}
+			</div>
+		</div>
+		<div class="layui-tab-item">
+			<video src="{$proData.video_path}"  controls="controls" width="99%" height="80%" onclick="getVideo({$proData.id});">
+
+			</video>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    function getProTeta(id){
+        var imgPaths;
+        var device = getQueryString();
+        var device_id = device["device_id"];
+        $.getJSON('./getOneProTeta',{'id':id,'device_id':device_id}, function(res){
+            if(res.code == 1){
+                imgPaths = res.data;
+				PageEvent.showImage(imgPaths);
+            }
+        });
+    }
+    function getPro(id){
+        var imgPaths;
+        $.getJSON('./getOnePro',{'id':id}, function(res){
+            if(res.code == 1){
+                imgPaths = res.data;
+                PageEvent.showImage(imgPaths);
+            }
+        });
+    }
+
+    function getVideo(id){
+        var videoPaths;
+        $.getJSON('./getOneProVideo',{'id':id}, function(res){
+            if(res.code == 1){
+                videoPaths = res.data;
+                // alert(videoPaths)
+                PageEvent.showVideo(videoPaths);
+            }
+        });
+	}
+    layui.use('element', function(){
+        var $ = layui.jquery
+            ,element = layui.element; //Tab的切换功能，切换事件监听等，需要依赖element模块
+    });
+    function getQueryString() {
+        var qs = location.search.substr(1), // 获取url中"?"符后的字串
+            args = {}, // 保存参数数据的对象
+            items = qs.length ? qs.split("&") : [], // 取得每一个参数项,
+            item = null,
+            len = items.length;
+        for(var i = 0; i < len; i++) {
+            item = items[i].split("=");
+            var name = decodeURIComponent(item[0]),
+                value = decodeURIComponent(item[1]);
+            if(name) {
+                args[name] = value;
+            }
+        }
+        return args;
+    }
+
+    var mySwiper = new Swiper('.swiper-container',{
+        onSlideChangeEnd: function(swiper){
+            var img_paths = swiper.imagesToLoad[swiper.activeIndex].currentSrc;
+            PageEvent.showImage(img_paths);
+        },
+        onInit: function(swiper){
+            //Swiper初始化了
+            // alert(swiper.activeIndex);提示Swiper的当前索引
+			var img_path = swiper.imagesToLoad[swiper.activeIndex].currentSrc;
+            PageEvent.showImage(img_path);
+        }
+    })
+</script>
+</body>
+</html>

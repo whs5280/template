@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <title>H+ 后台主题UI框架 - 团队管理</title>
+    <link rel="shortcut icon" href="favicon.ico"> <link href="/static/admin/css/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/static/admin/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+
+    <link href="/static/admin/css/animate.min.css" rel="stylesheet">
+    <link href="/static/admin/css/style.min.css?v=4.1.0" rel="stylesheet">
+
+</head>
+<style>
+    .haha{
+        float: left;
+        width: 350px;
+        padding-right: 20px;
+    }
+</style>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row" id="box">
+            <div>
+                {foreach $lists as $v}
+                <div class="haha" style="margin: 0 auto;">
+                    <div class="ibox-title" >
+                        <h5>{$v.title}</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="team-members" style="text-align: center;height: 200px">
+                            <a href="#">
+                                <img alt="member"  src="{$v['photo']}" width="100%" height="200">
+                            </a>
+                        </div>
+                        <!--<h4>部门简介</h4>
+                        <p>
+                            平面设计（graphic design），也称为视觉传达设计，是以“视觉”作为沟通和表现的方式，透过多种方式来创造和结合符号、图片和文字，借此作出用来传达想法或讯息的视觉表现。
+                        </p>-->
+                        <div class="hr-line-dashed"></div>
+                        <div class="row  m-t-sm">
+                            <div class="col-sm-5">
+                                <div class="font-bold">上传日期</div>
+                                2018-02-04 10:21
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="font-bold">浏览量</div>
+                                401次
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="font-bold">作者</div>
+                                {$v.writer}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/foreach}
+            </div>
+        </div>
+        <div class="row">
+            <div id="Pages" style="text-align:center;margin-top: 50px;"></div>
+        </div>
+
+
+
+    </div>
+    <!-- 全局js -->
+    <script src="/static/admin/js/jquery.min.js?v=2.1.4"></script>
+    <script src="/static/admin/js/bootstrap.min.js?v=3.3.6"></script>
+
+
+
+    <!-- 自定义js -->
+    <script src="/static/admin/js/content.min.js?v=1.0.0"></script>
+
+
+    <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+    <!--统计代码，可删除-->
+    <script src="/static/admin/js/laypage/laypage.js"></script>
+</body>
+<script type="text/javascript">
+    $(window).resize(function () {
+        //当浏览器大小变化时
+        var windowWidth = $("#box").width();
+        Math.floor(windowWidth/370)*370
+        console.log(windowWidth);
+        //alert($(window).width());          //浏览器时下窗口可视区域高度
+        //alert($(document).width());        //浏览器时下窗口文档的高度
+        //alert($(document.body).height());   //浏览器时下窗口文档body的高度
+        //alert($(document.body).outerHeight(true)); //浏览器时下窗口文档body的总高度 包括border padding margin
+    });
+    //分页
+    laypage({
+        cont: $('#Pages'),  // 分页容器
+        pages: "{$allpage}",// 总页数
+        skip: false, //是否开启跳页
+        skin: '#1AB5B7',//分页组件颜色
+        groups: 3,//连续显示分页数
+        curr: function(){
+            var page = "{$nowpage}"; // 当前页(后台获取到的)
+            return page ? page : 1; // 返回当前页码值
+        }(),
+        jump: function(e, first){ //触发分页后的回调(单击页码后)
+            if(!first){ //一定要加此判断，否则初始时会无限刷新
+                //var urls = "{:url('index/index')}";
+                location.href = '?page='+e.curr;
+            }
+        }
+    });
+
+</script>
+</html>
